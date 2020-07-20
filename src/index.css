@@ -9,7 +9,7 @@ code {
   font-family: 'Roboto Mono', monospace;
 }
 
-.mapContainer {
+.map_container {
   position: absolute;
   top: 0;
   right: 0;
@@ -17,7 +17,7 @@ code {
   bottom: 0;
 }
 
-.sidebarStyle {
+.sidebar_style {
   display: inline-block;
   position: absolute;
   top: 0;

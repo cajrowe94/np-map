@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import mapboxgl from 'mapbox-gl';
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2FscCIsImEiOiJja2FvZmFuYWYyMWtnMnhtc2xwamRoMHIzIn0.mY3fqOQI3Gyxmvf8Yg0zag';
 
 class Map extends React.Component {
   constructor(props) {
@@ -14,8 +15,8 @@ class Map extends React.Component {
 
   componentDidMount() {
     const map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      container: this.map_container,
+      style: 'mapbox://styles/calp/ckctkan1j2vpo1iqaz17pdpo5',
       center: [this.state.lng, this.state.lat],
       zoom: this.state.zoom
     });
@@ -32,10 +33,10 @@ class Map extends React.Component {
   render() {
     return (
       <div>
-        <div className='sidebarStyle'>
+        <div className='sidebar_style'>
           <div>Longitude: {this.state.lng} | Latitude: {this.state.lat} | Zoom: {this.state.zoom}</div>
         </div>
-        <div ref={el => this.mapContainer = el} className = 'mapContainer'/>
+        <div ref={el => this.map_container = el} className = 'map_container'/>
       </div>
     )
   }
