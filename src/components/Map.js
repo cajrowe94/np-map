@@ -7,9 +7,10 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lng: 5,
-      lat: 34,
-      zoom: 2
+      lng: -98,
+      lat: 38,
+      zoom: 4.3,
+      features: [],
     };
   }
 
@@ -21,7 +22,20 @@ class Map extends React.Component {
       zoom: this.state.zoom
     });
 
-    map.on('move', () => {
+    map.on('load', () => { //
+      var np_points_layer = map.getLayer('National park points');
+      var map_source = map.getSource('composite');
+      var np_points_geo_json = map.querySourceFeatures('composite', {
+        'sourceLayer': np_points_layer.sourceLayer || null,
+      });
+
+      this.setState({
+        features: np_points_geo_json,
+      })
+      console.log(np_points_geo_json);
+    });
+
+    map.on('move', () => { 
       this.setState({
         lng: map.getCenter().lng.toFixed(4),
         lat: map.getCenter().lat.toFixed(4),
