@@ -15,33 +15,41 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    const map = new mapboxgl.Map({
+    this.map = new mapboxgl.Map({
       container: this.map_container,
       style: 'mapbox://styles/calp/ckctkan1j2vpo1iqaz17pdpo5',
       center: [this.state.lng, this.state.lat],
       zoom: this.state.zoom
     });
 
-    map.on('load', () => { //
-      var np_points_layer = map.getLayer('National park points');
-      var map_source = map.getSource('composite');
-      var np_points_geo_json = map.querySourceFeatures('composite', {
+    this.map.on('load', () => {
+      console.log(this.get_map_layers());
+      var np_points_layer = this.map.getLayer('National park points');
+      var map_source = this.map.getSource('composite');
+      console.log(map_source);
+      var np_points_geo_json = this.map.querySourceFeatures('composite', {
         'sourceLayer': np_points_layer.sourceLayer || null,
       });
 
       this.setState({
         features: np_points_geo_json,
       })
-      console.log(np_points_geo_json);
     });
 
-    map.on('move', () => { 
+    this.map.on('move', () => { 
       this.setState({
-        lng: map.getCenter().lng.toFixed(4),
-        lat: map.getCenter().lat.toFixed(4),
-        zoom: map.getZoom().toFixed(2)
+        lng: this.map.getCenter().lng.toFixed(4),
+        lat: this.map.getCenter().lat.toFixed(4),
+        zoom: this.map.getZoom().toFixed(2)
       });
     });
+  }
+
+  /*
+  Returns all of the map's layers
+   */
+  get_map_layers() {
+    return this.map.getStyle().layers;
   }
 
   render() {
