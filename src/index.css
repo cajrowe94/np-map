@@ -29,3 +29,8 @@ code {
   padding: 6px;
   font-weight: bold;
 }
+
+.map_marker {
+  height: 25px;
+  width: 25px;
+}
