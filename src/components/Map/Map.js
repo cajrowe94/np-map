@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import mapbox from 'mapbox-gl';
-import map_icon from '../img/icons/map_marker.svg';
+import './Map.css';
+import map_icon from '../../assets/img/icons/map_marker.svg';
 mapbox.accessToken = 'pk.eyJ1IjoiY2FscCIsImEiOiJja2FvZmFuYWYyMWtnMnhtc2xwamRoMHIzIn0.mY3fqOQI3Gyxmvf8Yg0zag';
 
 class Map extends React.Component {
@@ -65,9 +66,6 @@ class Map extends React.Component {
           let icon = document.createElement('img');
           icon.setAttribute('src', map_icon);
           icon.classList.add('map_marker');
-
-
-          console.log(icon);
 
           new mapbox.Marker(icon)
             .setLngLat(feature.geometry.coordinates)
