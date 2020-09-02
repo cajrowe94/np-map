@@ -42,7 +42,7 @@ class Map extends React.Component {
     });
 
     // when the map is done loading
-    // get the geojson data, features, etc
+    // get the geojson data, features, etc.
     this.map.on('load', () => {
       var np_points_layer = this.map.getLayer('National park points');
       var map_source = this.map.getSource('composite');
