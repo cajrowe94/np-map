@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import mapbox from 'mapbox-gl';
 import './Map.css';
-import map_icon from '../../assets/img/icons/map_marker.svg';
+import map_icon from '../../assets/img/icons/np_marker.png';
+
 mapbox.accessToken = 'pk.eyJ1IjoiY2FscCIsImEiOiJja2FvZmFuYWYyMWtnMnhtc2xwamRoMHIzIn0.mY3fqOQI3Gyxmvf8Yg0zag';
 
 class Map extends React.Component {
@@ -17,16 +18,7 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    // initialize the map
     this.map_init();
-
-    this.map.on('move', () => { 
-      this.setState({
-        lng: this.map.getCenter().lng.toFixed(4),
-        lat: this.map.getCenter().lat.toFixed(4),
-        zoom: this.map.getZoom().toFixed(2)
-      });
-    });
   }
 
   /**
@@ -45,33 +37,47 @@ class Map extends React.Component {
     // when the map is done loading
     // get the geojson data, features, etc.
     this.map.on('load', () => {
-      var np_points_layer = this.map.getLayer('National park points');
+      var np_points_layer = this.map.getLayer('national-parks');
+      console.log(this.get_map_layers());
+      console.log(np_points_layer);
       var map_source = this.map.getSource('composite');
-      var np_points_geo_json = this.map.querySourceFeatures('composite', {
+      console.log(map_source);
+
+      // get the feature data
+      var feature_data = this.structure_feature_data(
+        this.map.querySourceFeatures('composite', {
         'sourceLayer': np_points_layer.sourceLayer || null,
-      });
+      }));
 
       this.setState({
-        features: np_points_geo_json,
+        features: feature_data,
       });
 
       // add all the markers
-      this.state.features.forEach(feature => {
-        if ( // check if it actuall has longitude + latitude
-          feature.geometry &&
-          feature.geometry.coordinates &&
-          feature.geometry.coordinates.length === 2
+      for (var i in feature_data){
+        if ( // check if it actually has longitude + latitude
+          feature_data[i] &&
+          feature_data[i].coordinates
         ) {
           // create the icon element
           let icon = document.createElement('img');
           icon.setAttribute('src', map_icon);
+
+          // give each icon an id
+          // will use this to reference when clicked
+          icon.setAttribute('data-id', i);
           icon.classList.add('map_marker');
 
+          // add the click listener
+          icon.addEventListener('click', (data)=>{
+            this.handle_feature_click(data.srcElement.dataset);
+          });
+
           new mapbox.Marker(icon)
-            .setLngLat(feature.geometry.coordinates)
+            .setLngLat(feature_data[i].coordinates)
             .addTo(this.map);
         }
-      });
+      };
     });
   }
 
@@ -82,12 +88,37 @@ class Map extends React.Component {
     return this.map.getStyle().layers;
   }
 
+  /**
+   * When a geojson feature is clicked on the map
+   */
+  handle_feature_click(data) {
+    var id = data.id;
+    console.log(this.state.features[id]);
+  }
+
+  /**
+   * Rebuild the feature data how I want :-)
+   */
+  structure_feature_data(features) {
+    var feature_obj = {};
+
+    var i = 1;
+    features.forEach(feature => {
+      feature_obj[i] = {
+        feature_id: feature.id,
+        name: feature.properties['Name'],
+        code: feature.properties['Code'],
+        coordinates: feature.geometry.coordinates,
+      };
+      i++;
+    });
+
+    return feature_obj;
+  }
+
   render() {
     return (
       <div>
-        <div className='sidebar_style'>
-          <div>Longitude: {this.state.lng} | Latitude: {this.state.lat} | Zoom: {this.state.zoom}</div>
-        </div>
         <div ref={el => this.map_container = el} className = 'map_container'/>
       </div>
     )

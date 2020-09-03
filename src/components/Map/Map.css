@@ -1,6 +1,10 @@
 .map_marker {
-  height: 25px;
-  width: 25px;
+  height: 35px;
+  width: 35px;
+}
+
+.map_marker:hover {
+  cursor: pointer;
 }
 
 .map_container {
