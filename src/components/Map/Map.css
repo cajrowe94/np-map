@@ -7,6 +7,10 @@
   cursor: pointer;
 }
 
+.icon_container {
+  width: 200px;
+}
+
 .map_container {
   position: absolute;
   top: 0;

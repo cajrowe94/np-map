@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import mapbox from 'mapbox-gl';
 import './Map.css';
-import map_icon from '../../assets/img/icons/np_marker.png';
+import map_icon from '../../assets/img/icons/pastel_mountains.png';
+import Marker from '../Marker';
 
 mapbox.accessToken = 'pk.eyJ1IjoiY2FscCIsImEiOiJja2FvZmFuYWYyMWtnMnhtc2xwamRoMHIzIn0.mY3fqOQI3Gyxmvf8Yg0zag';
 
@@ -38,10 +39,7 @@ class Map extends React.Component {
     // get the geojson data, features, etc.
     this.map.on('load', () => {
       var np_points_layer = this.map.getLayer('national-parks');
-      console.log(this.get_map_layers());
-      console.log(np_points_layer);
       var map_source = this.map.getSource('composite');
-      console.log(map_source);
 
       // get the feature data
       var feature_data = this.structure_feature_data(
@@ -60,22 +58,18 @@ class Map extends React.Component {
           feature_data[i].coordinates
         ) {
           // create the icon element
-          let icon = document.createElement('img');
-          icon.setAttribute('src', map_icon);
-
-          // give each icon an id
-          // will use this to reference when clicked
-          icon.setAttribute('data-id', i);
-          icon.classList.add('map_marker');
-
-          // add the click listener
-          icon.addEventListener('click', (data)=>{
-            this.handle_feature_click(data.srcElement.dataset);
-          });
-
-          new mapbox.Marker(icon)
+          let icon_container = document.createElement('div');
+          icon_container.id = feature_data[i].code;
+          feature_data[i].id = i;
+          
+          new mapbox.Marker(icon_container)
             .setLngLat(feature_data[i].coordinates)
             .addTo(this.map);
+
+          ReactDOM.render(
+            <Marker feature={ feature_data[i] } />,
+            icon_container
+          );
         }
       };
     });
@@ -91,9 +85,9 @@ class Map extends React.Component {
   /**
    * When a geojson feature is clicked on the map
    */
-  handle_feature_click(data) {
+  handle_feature_click(data, container) {
     var id = data.id;
-    console.log(this.state.features[id]);
+    var feature_data = this.state.features[id];
   }
 
   /**
