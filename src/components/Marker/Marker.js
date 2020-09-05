@@ -1,23 +1,21 @@
 import React from "react";
 import { Button, Popover, PopoverBody, PopoverHeader } from "shards-react";
 import map_icon from '../../assets/img/icons/pastel_mountains.png';
+import './Marker.css';
 
 export default class Marker extends React.Component {
   constructor(props) {
     super(props);
-    this.close_popout = this.close_popout.bind(this);
-    this.open_popout = this.open_popout.bind(this);
+    this.toggle = this.toggle.bind(this);
     this.state = {
       open: false
     };
   }
 
-  close_popout() {
-    this.setState({ open: false });
-  }
-
-  open_popout() {
-    this.setState({ open: true });
+  toggle() {
+    this.setState({
+      open: !this.state.open
+    });
   }
 
   render() {
@@ -25,8 +23,8 @@ export default class Marker extends React.Component {
       <div>
         <img
           src={ map_icon }
-          onMouseEnter={this.open_popout}
-          onMouseLeave={this.close_popout}
+          open={ this.state.open }
+          onClick={ this.toggle }
           id={ this.props.feature.id }
           className="map_marker"
         />
@@ -37,7 +35,12 @@ export default class Marker extends React.Component {
           target={ '#' + this.props.feature.code }
         >
           <PopoverHeader>{ this.props.feature.name }</PopoverHeader>
-          <PopoverBody>{ JSON.stringify(this.props.feature) }</PopoverBody>
+          <PopoverBody>
+            <p className="marker_paragraph">Location: { this.props.feature.location }</p>
+            <p className="marker_paragraph">Established: { this.props.feature.established }</p>
+            <p className="marker_paragraph">Yearly vistors: { 'baz' }</p>
+            <Button outline pill size="sm" theme="info" className="marker_button">Explore →</Button>
+          </PopoverBody>
         </Popover>
       </div>
     );

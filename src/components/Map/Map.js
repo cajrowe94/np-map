@@ -96,6 +96,8 @@ class Map extends React.Component {
   structure_feature_data(features) {
     var feature_obj = {};
 
+    console.log(features);
+
     var i = 1;
     features.forEach(feature => {
       feature_obj[i] = {
@@ -103,9 +105,13 @@ class Map extends React.Component {
         name: feature.properties['Name'],
         code: feature.properties['Code'],
         coordinates: feature.geometry.coordinates,
+        established: feature.properties['Established'],
+        location: feature.properties['Location'],
       };
       i++;
     });
+
+    console.log(feature_obj);
 
     return feature_obj;
   }

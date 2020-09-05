@@ -1,33 +1,7 @@
-.map_marker {
-  height: 35px;
-  width: 35px;
-}
-
-.map_marker:hover {
-  cursor: pointer;
-}
-
-.icon_container {
-  width: 200px;
-}
-
 .map_container {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
-}
-
-.sidebar_style {
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 12px;
-  background-color: #404040;
-  color: #ffffff;
-  z-index: 1 !important;
-  padding: 6px;
-  font-weight: bold;
 }

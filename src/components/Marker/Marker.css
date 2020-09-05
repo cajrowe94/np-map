@@ -1,3 +1,20 @@
 .map_marker {
-	height: 24px;
+  height: 32px;
+}
+
+.map_marker:hover {
+  cursor: pointer;
+}
+
+.icon_container {
+  width: 200px;
+}
+
+.marker_paragraph {
+  margin: 5px;
+}
+
+.marker_button {
+  float: right;
+  margin: 20px 0px 15px 0px;
 }
