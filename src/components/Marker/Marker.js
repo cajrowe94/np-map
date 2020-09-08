@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Popover, PopoverBody, PopoverHeader } from "shards-react";
-import map_icon from '../../assets/img/icons/pastel_mountains.png';
+import map_icon from '../../assets/img/icons/map-marker-f.svg';
 import './Marker.css';
 
 export default class Marker extends React.Component {
@@ -33,13 +33,14 @@ export default class Marker extends React.Component {
           open={this.state.open}
           toggle={this.toggle}
           target={ '#' + this.props.feature.code }
+          className="popup_custom"
         >
           <PopoverHeader>{ this.props.feature.name }</PopoverHeader>
           <PopoverBody>
-            <p className="marker_paragraph">Location: { this.props.feature.location }</p>
-            <p className="marker_paragraph">Established: { this.props.feature.established }</p>
-            <p className="marker_paragraph">Yearly vistors: { 'baz' }</p>
-            <Button outline pill size="sm" theme="info" className="marker_button">Explore →</Button>
+            <p className="marker_paragraph"><b>Location:</b> { this.props.feature.location }</p>
+            <p className="marker_paragraph"><b>Established:</b> { this.props.feature.established }</p>
+            <p className="marker_paragraph"><b>Yearly vistors:</b> { 'baz' }</p>
+            <Button block outline size="sm" className="button_primary_custom">Explore →</Button>
           </PopoverBody>
         </Popover>
       </div>

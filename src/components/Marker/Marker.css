@@ -1,4 +1,6 @@
 .map_marker {
+  position: relative;
+  top: -13px;
   height: 32px;
 }
 
@@ -14,7 +16,23 @@
   margin: 5px;
 }
 
-.marker_button {
-  float: right;
-  margin: 20px 0px 15px 0px;
+.button_primary_custom {
+  color: #213A1B !important;
+  background-color: #F6F7F8 !important;
+  margin: 15px 0px 5px 0px;
+  border: 1px solid #213A1B !important;
+}
+
+.button_primary_custom:hover {
+  color: #F6F7F8 !important;
+  background-color: #213A1B !important;
+}
+
+.popup_custom {
+  background-color: #F6F7F8 !important;
+}
+
+.popup_custom h3 {
+  color: #F6F7F8 !important;
+  background-color: #213A1B !important;
 }
