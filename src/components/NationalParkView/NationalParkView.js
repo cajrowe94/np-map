@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './NationalParkView.css';
 
-class ListView extends React.Component {
+class NationalParkView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,16 +11,16 @@ class ListView extends React.Component {
   }
 
   componentDidMount() {
-    
+
   }
 
   render() {
     return (
-      <div>
-        
+      <div id="np_view">
+        foo diddly
       </div>
     )
   }
 }
 
-export default ListView;
+export default NationalParkView;

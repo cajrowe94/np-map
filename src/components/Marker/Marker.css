@@ -17,15 +17,16 @@
 }
 
 .button_primary_custom {
-  color: #213A1B !important;
+  margin-top: 15px !important;
+  /*color: #213A1B !important;
   background-color: #F6F7F8 !important;
   margin: 15px 0px 5px 0px;
-  border: 1px solid #213A1B !important;
+  border: 1px solid #213A1B !important;*/
 }
 
 .button_primary_custom:hover {
-  color: #F6F7F8 !important;
-  background-color: #213A1B !important;
+ /* color: #F6F7F8 !important;
+  background-color: #213A1B !important;*/
 }
 
 .popup_custom {
