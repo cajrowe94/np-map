@@ -17,7 +17,7 @@ class NationalParkView extends React.Component {
   render() {
     return (
       <div id="np_view">
-        foo diddly
+        {JSON.stringify(this.props.feature)}
       </div>
     )
   }
