@@ -8,3 +8,13 @@ body {
 code {
   font-family: 'Roboto Mono', monospace;
 }
+
+.h1_title,
+.p_text,
+.h5_title {
+  margin: 20px;
+}
+
+.h5_title {
+  color: #5a6169;
+}

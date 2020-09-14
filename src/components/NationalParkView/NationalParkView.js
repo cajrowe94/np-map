@@ -1,13 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './NationalParkView.css';
+import MapView from "../MapView";
+import close_icon from '../../assets/img/icons/close.png';
 
 class NationalParkView extends React.Component {
   constructor(props) {
     super(props);
+    this.close_np_view = this.close_np_view.bind(this);
     this.state = {
       
     };
+  }
+
+  close_np_view() {
+    var root_ele = document.getElementsByClassName('root_overlay')[0];
+    root_ele.classList.remove("root_overlay_show");
+    root_ele.classList.add("root_overlay_hidden");
   }
 
   componentDidMount() {
@@ -17,7 +26,25 @@ class NationalParkView extends React.Component {
   render() {
     return (
       <div id="np_view">
-        {JSON.stringify(this.props.feature)}
+        <div className="np_view_close_container">
+          <img src={close_icon} id="np_view_close_icon" onClick={this.close_np_view}/>
+        </div>
+        <div className="np_view_container">
+          <div className="np_view_header">
+            <h1 className="h1_title">{this.props.feature.name}</h1>
+            <h5 className="h5_title">{this.props.feature.location + ', United States'}</h5>
+            <p className="p_text">
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+              sed do eiusmod tempor incididunt ut labore et dolore magna 
+              aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+              ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+              Duis aute irure dolor in reprehenderit in voluptate velit esse 
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
+              cupidatat non proident, sunt in culpa qui officia deserunt 
+              mollit anim id est laborum."
+            </p>
+          </div>
+        </div>
       </div>
     )
   }

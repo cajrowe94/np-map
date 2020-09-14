@@ -73,7 +73,10 @@ class InfoPopover extends React.Component {
   }
 
   viewNationalPark() {
-    var root_ele = document.getElementById('root');
+    var root_ele = document.getElementsByClassName('root_overlay')[0];
+    console.log(root_ele);
+    root_ele.classList.remove("root_overlay_hidden");
+    root_ele.classList.add("root_overlay_show");
     ReactDOM.render(
       <NationalParkView feature={this.props.feature} />,
       root_ele
