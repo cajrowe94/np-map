@@ -3,14 +3,19 @@ import ReactDOM from 'react-dom';
 import './NationalParkView.css';
 import MapView from "../MapView";
 import close_icon from '../../assets/img/icons/close.png';
+import collapse_icon from '../../assets/img/icons/collapse.png';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
+
+import np_1 from '../../assets/img/np/1.jpg';
+import np_2 from '../../assets/img/np/2.jpg';
+import np_3 from '../../assets/img/np/3.jpg';
 
 class NationalParkView extends React.Component {
   constructor(props) {
     super(props);
     this.close_np_view = this.close_np_view.bind(this);
-    this.state = {
-      
-    };
+    this.state = {};
   }
 
   close_np_view() {
@@ -26,8 +31,9 @@ class NationalParkView extends React.Component {
   render() {
     return (
       <div id="np_view">
-        <div className="np_view_close_container">
-          <img src={close_icon} id="np_view_close_icon" onClick={this.close_np_view}/>
+        <div className="np_view_action_container">
+          <img src={collapse_icon} id="np_icon"/>
+          <img src={close_icon} id="np_icon" onClick={this.close_np_view}/>
         </div>
         <div className="np_view_container">
           <div className="np_view_header">
@@ -43,6 +49,19 @@ class NationalParkView extends React.Component {
               cupidatat non proident, sunt in culpa qui officia deserunt 
               mollit anim id est laborum."
             </p>
+          </div>
+          <div className="np_view_body">
+            <Carousel>
+              <div>
+                <img src={np_1} />
+              </div>
+              <div>
+                <img src={np_2} />
+              </div>
+              <div>
+                <img src={np_3} />
+              </div>
+            </Carousel>
           </div>
         </div>
       </div>
