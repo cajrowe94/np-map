@@ -98,7 +98,6 @@ class InfoPopover extends React.Component {
             <p className="marker_paragraph"><b>Yearly vistors:</b> { 'baz' }</p>
             <Button
               block
-              pill
               size="sm"
               theme="info"
               className="button_primary_custom"

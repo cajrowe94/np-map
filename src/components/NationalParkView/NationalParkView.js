@@ -1,15 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './NationalParkView.css';
-import MapView from "../MapView";
 import close_icon from '../../assets/img/icons/close.png';
 import collapse_icon from '../../assets/img/icons/collapse.png';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel';
-
-import np_1 from '../../assets/img/np/1.jpg';
-import np_2 from '../../assets/img/np/2.jpg';
-import np_3 from '../../assets/img/np/3.jpg';
+import NPCarousel from "../NPCarousel";
 
 class NationalParkView extends React.Component {
   constructor(props) {
@@ -51,17 +45,7 @@ class NationalParkView extends React.Component {
             </p>
           </div>
           <div className="np_view_body">
-            <Carousel>
-              <div>
-                <img src={np_1} />
-              </div>
-              <div>
-                <img src={np_2} />
-              </div>
-              <div>
-                <img src={np_3} />
-              </div>
-            </Carousel>
+            <NPCarousel feature={this.props.feature} />
           </div>
         </div>
       </div>
