@@ -23,17 +23,28 @@ class NPCarousel extends React.Component {
   }
 
   render() {
-    var data = this.state.data;
     return (
       <Carousel>
-        {Object.keys(data).map(function(a) {
-          console.log(data[a]);
-           return (
-            <div>
-              <img key={data[a].id} src={data[a].webformatURL} />
-            </div>
-           );
-       })}
+        <div>
+          <img
+            src={require("../../assets/img/np/" + this.props.feature.code + "/" + this.props.feature.code + "_1.jpg")}
+          />
+        </div>
+        <div>
+          <img
+            src={require("../../assets/img/np/" + this.props.feature.code + "/" + this.props.feature.code + "_2.jpg")}
+          />
+        </div>
+        <div>
+          <img
+            src={require("../../assets/img/np/" + this.props.feature.code + "/" + this.props.feature.code + "_3.jpg")}
+          />
+        </div>
+        <div>
+          <img
+            src={require("../../assets/img/np/" + this.props.feature.code + "/" + this.props.feature.code + "_4.jpg")}
+          />
+        </div>
       </Carousel>
    )
   }
