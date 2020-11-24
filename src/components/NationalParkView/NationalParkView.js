@@ -4,6 +4,7 @@ import './NationalParkView.css';
 import close_icon from '../../assets/img/icons/close.png';
 import collapse_icon from '../../assets/img/icons/collapse.png';
 import NPCarousel from "../NPCarousel";
+import MapView from "../MapView";
 
 class NationalParkView extends React.Component {
   constructor(props) {
@@ -13,9 +14,7 @@ class NationalParkView extends React.Component {
   }
 
   close_np_view() {
-    var root_ele = document.getElementsByClassName('root_overlay')[0];
-    root_ele.classList.remove("root_overlay_show");
-    root_ele.classList.add("root_overlay_hidden");
+    this.props.handleClose()
   }
 
   componentDidMount() {

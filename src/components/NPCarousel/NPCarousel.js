@@ -25,26 +25,6 @@ class NPCarousel extends React.Component {
   render() {
     return (
       <Carousel>
-        <div>
-          <img
-            src={require("../../assets/img/np/" + this.props.feature.code + "/" + this.props.feature.code + "_1.jpg")}
-          />
-        </div>
-        <div>
-          <img
-            src={require("../../assets/img/np/" + this.props.feature.code + "/" + this.props.feature.code + "_2.jpg")}
-          />
-        </div>
-        <div>
-          <img
-            src={require("../../assets/img/np/" + this.props.feature.code + "/" + this.props.feature.code + "_3.jpg")}
-          />
-        </div>
-        <div>
-          <img
-            src={require("../../assets/img/np/" + this.props.feature.code + "/" + this.props.feature.code + "_4.jpg")}
-          />
-        </div>
       </Carousel>
    )
   }

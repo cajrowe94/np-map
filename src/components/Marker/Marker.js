@@ -29,7 +29,7 @@ export default class Marker extends React.Component {
           id={this.props.feature.id}
           className="map_marker"
         />
-        <InfoPopover open={this.state.open} feature={this.props.feature}/>
+        <InfoPopover handleClick={this.props.handleClick} open={this.state.open} feature={this.props.feature}/>
       </div>
     );
   }
@@ -73,13 +73,7 @@ class InfoPopover extends React.Component {
   }
 
   viewNationalPark() {
-    var root_ele = document.getElementsByClassName('root_overlay')[0];
-    root_ele.classList.remove("root_overlay_hidden");
-    root_ele.classList.add("root_overlay_show");
-    ReactDOM.render(
-      <NationalParkView feature={this.props.feature} />,
-      root_ele
-    );
+    this.props.handleClick(this.props.feature);
   }
 
   render() {

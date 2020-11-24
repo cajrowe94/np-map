@@ -16,7 +16,7 @@ class ListView extends React.Component {
   render() {
     return (
       <div>
-        
+        List View
       </div>
     )
   }
