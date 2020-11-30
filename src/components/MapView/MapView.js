@@ -48,6 +48,8 @@ class MapView extends React.Component {
       container: this.map_container,
       style: 'mapbox://styles/calp/ckctkan1j2vpo1iqaz17pdpo5',
       center: [-98, 38],
+      maxZoom: 8,
+      minZoom: 3.5,
       zoom: 4.3,
     });
 
