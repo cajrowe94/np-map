@@ -5,7 +5,7 @@ import './MapView.css';
 import Marker from '../Marker';
 import NationalParkView from "../NationalParkView";
 
-mapbox.accessToken = 'pk.eyJ1IjoiY2FscCIsImEiOiJja2FvZmFuYWYyMWtnMnhtc2xwamRoMHIzIn0.mY3fqOQI3Gyxmvf8Yg0zag';
+mapbox.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 class MapView extends React.Component {
   constructor(props) {
