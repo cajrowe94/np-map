@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import mapbox from 'mapbox-gl';
+import './Map.css';
 import Marker from '../Marker';
-import NationalParkView from "../NationalParkView";
-import { CSSTransition } from 'react-transition-group';
-import './MapView.css';
 
 mapbox.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
@@ -17,7 +15,7 @@ class MapView extends React.Component {
     };
 
     this.handleMarkerClick = this.handleMarkerClick.bind(this);
-    this.handle_close = this.handle_close.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
     this.features = [];
   }
@@ -33,7 +31,7 @@ class MapView extends React.Component {
     });
   }
 
-  handle_close() {
+  handleClose() {
     this.setState({
       show_np_view: !this.state.show_np_view,
     });
@@ -44,7 +42,6 @@ class MapView extends React.Component {
    * This function also handles the load actions
    */
   map_init() {
-    let self = this;
     // main map object
     this.map = new mapbox.Map({
       container: this.map_container,
@@ -62,34 +59,34 @@ class MapView extends React.Component {
       var map_source = this.map.getSource('composite');
 
       // get the feature data
-      var feature_data = this.map.querySourceFeatures('composite', {
+      var feature_data = this.structure_feature_data(
+        this.map.querySourceFeatures('composite', {
         'sourceLayer': np_points_layer.sourceLayer || null,
-      });
-
-      console.log(feature_data);
+      }));
 
       this.features = feature_data;
 
       // add all the markers
-      feature_data.forEach(function(feature) {
+      for (var i in feature_data){
         if ( // check if it actually has longitude + latitude
-          feature &&
-          feature.geometry &&
-          feature.geometry.coordinates
+          feature_data[i] &&
+          feature_data[i].coordinates
         ) {
           // create the icon element
           let icon_container = document.createElement('div');
+          icon_container.id = feature_data[i].code;
+          feature_data[i].id = i;
           
           new mapbox.Marker(icon_container)
-            .setLngLat(feature.geometry.coordinates)
-            .addTo(self.map);
+            .setLngLat(feature_data[i].coordinates)
+            .addTo(this.map);
 
           ReactDOM.render(
-            <Marker feature={ feature } handle_click={self.handleMarkerClick} />,
+            <Marker feature={ feature_data[i] } handleClick={this.handleMarkerClick} />,
             icon_container
           );
         }
-      });
+      };
     });
   }
 
@@ -116,24 +113,22 @@ class MapView extends React.Component {
         established: feature.properties['Established'],
         location: feature.properties['Location'],
       };
+      i++;
     });
 
     return feature_obj;
   }
 
   render() {
+    let np_view_from_map = (
+      <div id="np_view_from_map">
+        <NationalParkView feature={this.state.selected_feature} handleClose={this.handleClose}/>
+      </div>
+    );
+
     return (
       <div>
-        <CSSTransition
-          in={this.state.show_np_view}
-          timeout={400}
-          classNames="np-view"
-          unmountOnExit
-        >
-        <div id="np_view_from_map">
-          <NationalParkView feature={this.state.selected_feature} handle_close={this.handle_close}/>
-        </div>
-      </CSSTransition>
+        {this.state.show_np_view && np_view_from_map}
         <div ref={el => this.map_container = el} className = 'map_container'/>
       </div>
     )

@@ -14,7 +14,7 @@ class NationalParkView extends React.Component {
   }
 
   close_np_view() {
-    this.props.handleClose()
+    this.props.handle_close()
   }
 
   componentDidMount() {
@@ -30,8 +30,8 @@ class NationalParkView extends React.Component {
         </div>
         <div className="np_view_container">
           <div className="np_view_header">
-            <h1 className="h1_title">{this.props.feature.name}</h1>
-            <h5 className="h5_title">{this.props.feature.location + ', United States'}</h5>
+            <h1 className="h1_title">{this.props.feature.properties.Name}</h1>
+            <h5 className="h5_title">{this.props.feature.properties.Location + ', United States'}</h5>
             <p className="p_text">
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
               sed do eiusmod tempor incididunt ut labore et dolore magna 

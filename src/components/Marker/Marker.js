@@ -26,10 +26,10 @@ export default class Marker extends React.Component {
         <img
           src={ map_icon }
           onClick={this.toggle_popover}
-          id={this.props.feature.id}
+          id={this.props.feature.properties.Code}
           className="map_marker"
         />
-        <InfoPopover handleClick={this.props.handleClick} open={this.state.open} feature={this.props.feature}/>
+        <InfoPopover handle_click={this.props.handle_click} open={this.state.open} feature={this.props.feature}/>
       </div>
     );
   }
@@ -38,7 +38,7 @@ export default class Marker extends React.Component {
 class InfoPopover extends React.Component {
   constructor(props) {
     super(props);
-    this.viewNationalPark = this.viewNationalPark.bind(this);
+    this.perform_click_action = this.perform_click_action.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       open: this.props.open
@@ -55,7 +55,7 @@ class InfoPopover extends React.Component {
 
   toggle(e) {
     // check if the button was clicked
-    // if so, we want to call the viewNationalPark function
+    // if so, we want to call the perform_click_action function
     // the toggle prop in popover stops any other click events from happening
     // so we have to use the event object in a crusty way :-)
     if (
@@ -64,7 +64,7 @@ class InfoPopover extends React.Component {
       e.path[0].type === 'button' &&
       e.path[0].className.includes('button_primary_custom')
     ) {
-      this.viewNationalPark();
+      this.perform_click_action();
     }
 
     this.setState({
@@ -72,8 +72,8 @@ class InfoPopover extends React.Component {
     })
   }
 
-  viewNationalPark() {
-    this.props.handleClick(this.props.feature);
+  perform_click_action() {
+    this.props.handle_click(this.props.feature);
   }
 
   render() {
@@ -83,19 +83,18 @@ class InfoPopover extends React.Component {
           placement="right"
           open={this.state.open}
           toggle={this.toggle}
-          target={'#' + this.props.feature.code}
+          target={'#' + this.props.feature.properties.Code}
         >
-          <PopoverHeader>{ this.props.feature.name }</PopoverHeader>
+          <PopoverHeader>{ this.props.feature.properties.Name }</PopoverHeader>
           <PopoverBody>
-            <p className="marker_paragraph"><b>Location:</b> { this.props.feature.location }</p>
-            <p className="marker_paragraph"><b>Established:</b> { this.props.feature.established }</p>
-            <p className="marker_paragraph"><b>Yearly vistors:</b> { 'baz' }</p>
+            <p className="marker_paragraph"><b>Location:</b> { this.props.feature.properties.Location }</p>
+            <p className="marker_paragraph"><b>Established:</b> { this.props.feature.properties.Established }</p>
             <Button
               block
               size="sm"
               theme="info"
               className="button_primary_custom"
-              onClick={this.viewNationalPark}
+              onClick={this.perform_click_action}
             >
             Explore &rarr;
             </Button>
