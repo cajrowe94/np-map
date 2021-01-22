@@ -5,7 +5,7 @@ import './MapView.css';
 import Marker from '../Marker';
 import NationalParkView from "../NationalParkView";
 
-mapbox.accessToken = 'pk.eyJ1IjoiY2FscCIsImEiOiJja2FvZmFuYWYyMWtnMnhtc2xwamRoMHIzIn0.mY3fqOQI3Gyxmvf8Yg0zag';
+mapbox.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 class MapView extends React.Component {
   constructor(props) {
@@ -48,6 +48,8 @@ class MapView extends React.Component {
       container: this.map_container,
       style: 'mapbox://styles/calp/ckctkan1j2vpo1iqaz17pdpo5',
       center: [-98, 38],
+      maxZoom: 8,
+      minZoom: 3.5,
       zoom: 4.3,
     });
 

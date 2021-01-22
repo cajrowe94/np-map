@@ -18,10 +18,14 @@
 
 .button_primary_custom {
   margin-top: 15px !important;
-  /*color: #213A1B !important;
-  background-color: #F6F7F8 !important;
-  margin: 15px 0px 5px 0px;
-  border: 1px solid #213A1B !important;*/
+  /*color: #213A1B !important;*/
+  background-color: #C14953 !important;
+  /*margin: 15px 0px 5px 0px;*/
+  border: 1px solid #C14953 !important;
+}
+
+.button_primary_custom:hover {
+  box-shadow: 0px 2px 10px gray !important;
 }
 
 .popup_custom {
@@ -31,4 +35,9 @@
 .popup_custom h3 {
   color: #F6F7F8 !important;
   background-color: #213A1B !important;
+}
+
+.popover-header {
+  color: #364e43 !important;
+  /*background-color: #E5DCC5 !important;*/
 }

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import { Button, Popover, PopoverBody, PopoverHeader } from "shards-react";
 import NationalParkView from "../NationalParkView";
-import map_icon from '../../assets/img/icons/map-marker-f.svg';
+import map_icon from '../../assets/img/icons/red_marker.svg';
 import './Marker.css';
 
 export default class Marker extends React.Component {
