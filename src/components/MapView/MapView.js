@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import mapbox from 'mapbox-gl';
-import Marker from '../Marker';
+import MapMarker from '../MapMarker';
 import NationalParkView from "../NationalParkView";
 import { CSSTransition } from 'react-transition-group';
 import './MapView.css';
@@ -16,7 +16,7 @@ class MapView extends React.Component {
       selected_feature: null,
     };
 
-    this.handleMarkerClick = this.handleMarkerClick.bind(this);
+    this.handle_marker_action = this.handle_marker_action.bind(this);
     this.handle_close = this.handle_close.bind(this);
 
     this.features = [];
@@ -26,7 +26,7 @@ class MapView extends React.Component {
     this.map_init();
   }
 
-  handleMarkerClick(feature) {
+  handle_marker_action(feature) {
     this.setState({
       show_np_view: true,
       selected_feature: feature,
@@ -66,8 +66,6 @@ class MapView extends React.Component {
         'sourceLayer': np_points_layer.sourceLayer || null,
       });
 
-      console.log(feature_data);
-
       this.features = feature_data;
 
       // add all the markers
@@ -85,7 +83,10 @@ class MapView extends React.Component {
             .addTo(self.map);
 
           ReactDOM.render(
-            <Marker feature={ feature } handle_click={self.handleMarkerClick} />,
+            <MapMarker
+              feature={feature}
+              action={()=>{self.handle_marker_action(feature)}}
+            />,
             icon_container
           );
         }
@@ -130,10 +131,10 @@ class MapView extends React.Component {
           classNames="np-view"
           unmountOnExit
         >
-        <div id="np_view_from_map">
-          <NationalParkView feature={this.state.selected_feature} handle_close={this.handle_close}/>
-        </div>
-      </CSSTransition>
+          <div id="np_view_from_map">
+            <NationalParkView feature={this.state.selected_feature} handle_close={this.handle_close}/>
+          </div>
+        </CSSTransition>
         <div ref={el => this.map_container = el} className = 'map_container'/>
       </div>
     )
