@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import Anime from 'animejs';
-import { Button, Popover, PopoverBody, PopoverHeader, Tooltip } from "shards-react";
+import Marker from '../Marker';
 import NationalParkView from "../NationalParkView";
-import map_icon from '../../assets/img/icons/red_marker.svg';
+import Popover from '@material-ui/core/Popover';
 import './MapMarker.css';
 
-export default class MapMarker extends React.Component {
+export default class MapMarker extends Marker {
   constructor(props) {
     super(props);
 
@@ -17,121 +16,111 @@ export default class MapMarker extends React.Component {
     this.feature = this.props.feature.properties;
 
     // bind our functions, rip
-    this.toggle_popover = this.toggle_popover.bind(this);
-    this.toggle_tooltip = this.toggle_tooltip.bind(this);
-    this.marker_on_hover = this.marker_on_hover.bind(this);
-    this.marker_on_leave = this.marker_on_leave.bind(this);
-    this.button_click = this.button_click.bind(this);
+    this.togglePopover = this.togglePopover.bind(this);
+    this.toggleTooltip = this.toggleTooltip.bind(this);
+    this.markerOnHover = this.markerOnHover.bind(this);
+    this.markerOnLeave = this.markerOnLeave.bind(this);
+    this.buttonClick = this.buttonClick.bind(this);
 
     this.state = {
-      popover_open: false,
-      tooltip_open: false,
+      popoverOpen: false,
+      tooltipOpen: false,
     }
-
-    this.init_marker_image();
-  }
-
-  // set the defaults for our marker image
-  // todo add some params for this class
-  // color, size, etc
-  init_marker_image() {
-    this.img = (<img
-      src={map_icon}
-      onClick={this.toggle_popover}
-      onMouseEnter={this.marker_on_hover}
-      onMouseLeave={this.marker_on_leave}
-      id={this.feature.Code}
-      className="map_marker"
-    />);
   }
 
   // open/closes the info popover
-  toggle_popover() {
+  togglePopover() {
     this.setState({
-      popover_open: !this.state.popover_open,
-      tooltip_open: false,
+      popoverOpen: !this.state.popoverOpen,
+      tooltipOpen: false,
     });
   }
 
   // show/hides the tooltip
   // only happens on hover, clicking will hide
-  toggle_tooltip() {
+  toggleTooltip() {
     this.setState({
-      tooltip_open: !this.state.tooltip_open
+      tooltipOpen: !this.state.tooltipOpen
     });
   }
 
   // animate marker + open tooltip
-  marker_on_hover() {
-    Anime({
-      targets: ('#' + this.feature.Code),
-      height: 42,
-      translateY: -5,
-    });
-
-    this.setState({
-      tooltip_open: true,
-    });
+  markerOnHover() {
+    if (!this.state.popoverOpen) {
+      this.setState({
+        tooltipOpen: true,
+      });
+    }
   }
 
   // animate marker down + hide tooltip
-  marker_on_leave() {
-    Anime({
-      targets: ('#' + this.feature.Code),
-      height: 32,
-      translateY: 5,
-    });
-
+  markerOnLeave() {
     this.setState({
-      tooltip_open: false,
+      tooltipOpen: false,
     });
   }
 
   // button click handler
-  button_click() {
+  buttonClick() {
     // close the popover
     // the toggle prop in Popover stops click events
     // so I have to close it within the button handler
     this.setState({
-      'popover_open': false,
+      'popoverOpen': false,
     });
 
     // fire the button action
     this.action();
   }
 
+
   render() {
     return (
       <div>
-        <Tooltip
-          open={this.state.tooltip_open}
-          target={'#' + this.feature.Code}
-          noArrow={true}
-          offset="0 10 0 0"
+       {/* <Tooltip
+          open = { this.state.tooltipOpen }
+          target = { '#' + this.feature.Code }
+          noArrow = { true }
+          offset = "0 10 0 0"
         >
-          {this.feature.Name}
-        </Tooltip>
-        {this.img}
-        <Popover
-          placement="top"
-          open={this.state.popover_open}
-          target={'#' + this.feature.Code}
+          { this.feature.Name }
+        </Tooltip>*/}
+
+        { this.getMarkerIcon() }
+
+        <Popover 
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
         >
-          <PopoverHeader>{this.feature.Name}</PopoverHeader>
+          The content of the Popover.
+        </Popover>
+
+        {/*<Popover
+          placement = "top"
+          open = { this.state.popoverOpen }
+          target = { '#' + this.feature.Code }
+        >
+          <PopoverHeader>{ this.feature.Name }</PopoverHeader>
           <PopoverBody>
-            <p className="marker_paragraph"><b>Location:</b> {this.feature.Location}</p>
-            <p className="marker_paragraph"><b>Established:</b> {this.feature.Established}</p>
+            <p className = "marker_paragraph"><b>Location:</b> { this.feature.Location }</p>
+            <p className = "marker_paragraph"><b>Established:</b> { this.feature.Established }</p>
             <Button
               block
-              size="sm"
-              theme="info"
-              className="button_primary_custom"
-              onClick={this.button_click}
+              size = "sm"
+              theme = "info"
+              className = "button_primary_custom"
+              onClick = { this.buttonClick }
             >
             Explore &rarr;
             </Button>
           </PopoverBody>
-        </Popover>
+        </Popover>*/}
       </div>
     );
   }

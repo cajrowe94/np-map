@@ -2,40 +2,43 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import mapbox from 'mapbox-gl';
 import MapMarker from '../MapMarker';
-import NationalParkView from "../NationalParkView";
+import NationalParkView from '../NationalParkView';
 import { CSSTransition } from 'react-transition-group';
 import './MapView.css';
+import config from '../../config.js';
+import axios from 'axios';
 
-mapbox.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+mapbox.accessToken = config.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 class MapView extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      show_np_view: false,
-      selected_feature: null,
+      renderNPView: false,
+      selectedNP: null,
     };
 
-    this.handle_marker_action = this.handle_marker_action.bind(this);
-    this.handle_close = this.handle_close.bind(this);
+    this.handleMarkerAction = this.handleMarkerAction.bind(this);
+    this.handleClose = this.handleClose.bind(this);
 
     this.features = [];
   }
 
   componentDidMount() {
-    this.map_init();
+    this.mapInit();
   }
 
-  handle_marker_action(feature) {
+  handleMarkerAction(feature) {
     this.setState({
-      show_np_view: true,
-      selected_feature: feature,
+      renderNPView: true,
+      nationalParkId: feature,
     });
   }
 
-  handle_close() {
+  handleClose() {
     this.setState({
-      show_np_view: !this.state.show_np_view,
+      renderNPView: !this.state.renderNPView,
     });
   }
 
@@ -43,11 +46,11 @@ class MapView extends React.Component {
    * Initialize the map
    * This function also handles the load actions
    */
-  map_init() {
+  mapInit() {
     let self = this;
     // main map object
     this.map = new mapbox.Map({
-      container: this.map_container,
+      container: this.mapContainer,
       style: 'mapbox://styles/calp/ckctkan1j2vpo1iqaz17pdpo5',
       center: [-98, 38],
       maxZoom: 8,
@@ -56,60 +59,72 @@ class MapView extends React.Component {
     });
 
     // when the map is done loading
-    // get the geojson data, features, etc.
+    // get the geojson data, national parks, etc.
     this.map.on('load', () => {
-      var np_points_layer = this.map.getLayer('national-parks');
-      var map_source = this.map.getSource('composite');
-
-      // get the feature data
-      var feature_data = this.map.querySourceFeatures('composite', {
-        'sourceLayer': np_points_layer.sourceLayer || null,
+      axios.get('/nationalpark', {
+        baseURL: 'http://localhost:8000/api/',
+        params: {
+          country_id: 230,
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
+      // var npPointsLayer = this.map.getLayer('national-parks');
+      // var mapSource = this.map.getSource('composite');
 
-      this.features = feature_data;
+      // // get the feature data
+      // var feature_data = this.map.querySourceFeatures('composite', {
+      //   'sourceLayer': npPointsLayer.sourceLayer || null,
+      // });
+
+      // this.features = feature_data;
 
       // add all the markers
-      feature_data.forEach(function(feature) {
-        if ( // check if it actually has longitude + latitude
-          feature &&
-          feature.geometry &&
-          feature.geometry.coordinates
-        ) {
-          // create the icon element
-          let icon_container = document.createElement('div');
+      // feature_data.forEach(function(feature) {
+      //   if ( // check if it actually has longitude + latitude
+      //     feature &&
+      //     feature.geometry &&
+      //     feature.geometry.coordinates
+      //   ) {
+      //     // create the icon element
+      //     let iconContainer = document.createElement('div');
           
-          new mapbox.Marker(icon_container)
-            .setLngLat(feature.geometry.coordinates)
-            .addTo(self.map);
+      //     new mapbox.Marker(iconContainer)
+      //       .setLngLat(feature.geometry.coordinates)
+      //       .addTo(self.map);
 
-          ReactDOM.render(
-            <MapMarker
-              feature={feature}
-              action={()=>{self.handle_marker_action(feature)}}
-            />,
-            icon_container
-          );
-        }
-      });
+      //     ReactDOM.render(
+      //       <MapMarker
+      //         feature={feature}
+      //         action={()=>{self.handleMarkerAction(feature)}}
+      //       />,
+      //       iconContainer
+      //     );
+      //   }
+      // });
     });
   }
 
   /**
    * Returns all of the map's layers 
    */
-  get_map_layers() {
+  getMapLayers() {
     return this.map.getStyle().layers;
   }
 
   /**
    * Rebuild the feature data how I want :-)
    */
-  structure_feature_data(features) {
-    var feature_obj = {};
+  structureFeatureData(features) {
+    var featureObj = {};
 
     var i = 1;
     features.forEach(feature => {
-      feature_obj[i] = {
+      featureObj[i] = {
         feature_id: feature.id,
         name: feature.properties['Name'],
         code: feature.properties['Code'],
@@ -119,23 +134,23 @@ class MapView extends React.Component {
       };
     });
 
-    return feature_obj;
+    return featureObj;
   }
 
   render() {
     return (
       <div>
         <CSSTransition
-          in={this.state.show_np_view}
+          in={this.state.renderNPView}
           timeout={400}
           classNames="np-view"
           unmountOnExit
         >
           <div id="np_view_from_map">
-            <NationalParkView feature={this.state.selected_feature} handle_close={this.handle_close}/>
+            <NationalParkView feature={this.state.selectedNP} handleClose={this.handleClose}/>
           </div>
         </CSSTransition>
-        <div ref={el => this.map_container = el} className = 'map_container'/>
+        <div ref={el => this.mapContainer = el} className = 'map-container'/>
       </div>
     )
   }

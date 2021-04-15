@@ -9,12 +9,12 @@ import MapView from "../MapView";
 class NationalParkView extends React.Component {
   constructor(props) {
     super(props);
-    this.close_np_view = this.close_np_view.bind(this);
+    this.closeNPView = this.closeNPView.bind(this);
     this.state = {};
   }
 
-  close_np_view() {
-    this.props.handle_close()
+  closeNPView() {
+    this.props.handleClose()
   }
 
   componentDidMount() {
@@ -26,7 +26,7 @@ class NationalParkView extends React.Component {
       <div id="np_view">
         <div className="np_view_action_container">
           <img src={collapse_icon} id="np_icon"/>
-          <img src={close_icon} id="np_icon" onClick={this.close_np_view}/>
+          <img src={close_icon} id="np_icon" onClick={this.closeNPView}/>
         </div>
         <div className="np_view_container">
           <div className="np_view_header">
