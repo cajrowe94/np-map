@@ -1,43 +1,45 @@
-.map_marker {
+.popover-content-container {
+  width: 250px;
+  height: auto;
   position: relative;
-  top: -13px;
-  height: 32px;
-}
-
-.map_marker:hover {
-  cursor: pointer;
-}
-
-.icon_container {
-  width: 200px;
-}
-
-.marker_paragraph {
-  margin: 5px;
-}
-
-.button_primary_custom {
-  margin-top: 15px !important;
-  /*color: #213A1B !important;*/
-  background-color: #C14953 !important;
-  /*margin: 15px 0px 5px 0px;*/
-  border: 1px solid #C14953 !important;
-}
-
-.button_primary_custom:hover {
-  box-shadow: 0px 2px 10px gray !important;
-}
-
-.popup_custom {
-  background-color: #F6F7F8 !important;
-}
-
-.popup_custom h3 {
-  color: #F6F7F8 !important;
-  background-color: #213A1B !important;
 }
 
 .popover-header {
-  color: #364e43 !important;
-  /*background-color: #E5DCC5 !important;*/
+  margin: 0px auto 0px 10px;
+  color: #fff;
+  position: relative;
+  top: -25px;
+  max-width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popover-image-container {
+  height: 125px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.popover-image-container:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent 60%, black 100%);
+}
+
+.popover-cta {
+  float: right;
+}
+
+.popover-body {
+  margin: 0;
+  position: relative;
+  top: -15px;
+  font-size: 15px;
+  padding: 0px 10px;
 }

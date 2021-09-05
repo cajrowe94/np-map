@@ -1,20 +1,11 @@
+h1 {
+	font-size: 45px;
+	font-weight: 400;
+}
+
 body {
   margin: 0;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: 'Roboto Mono', monospace;
-}
-
-.h1_title,
-.p_text,
-.h5_title {
-  margin: 20px;
-}
-
-.h5_title {
-  color: #5a6169;
 }

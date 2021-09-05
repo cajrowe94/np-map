@@ -1,11 +1,17 @@
 import React from "react";
 import ReactDOM from 'react-dom';
+
 import Marker from '../Marker';
 import NationalParkView from "../NationalParkView";
+
 import Popover from '@material-ui/core/Popover';
+import Button from '@material-ui/core/Button';
+import Place from '@material-ui/icons/Place';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+
 import './MapMarker.css';
 
-export default class MapMarker extends Marker {
+export default class MapMarker extends React.Component {
   constructor(props) {
     super(props);
 
@@ -13,114 +19,88 @@ export default class MapMarker extends Marker {
     this.action = this.props.action;
 
     // which national park this marker represents
-    this.feature = this.props.feature.properties;
-
-    // bind our functions, rip
-    this.togglePopover = this.togglePopover.bind(this);
-    this.toggleTooltip = this.toggleTooltip.bind(this);
-    this.markerOnHover = this.markerOnHover.bind(this);
-    this.markerOnLeave = this.markerOnLeave.bind(this);
-    this.buttonClick = this.buttonClick.bind(this);
+    this.feature = this.props.feature;
 
     this.state = {
-      popoverOpen: false,
-      tooltipOpen: false,
+      anchorEl: null,
     }
   }
 
-  // open/closes the info popover
-  togglePopover() {
+  handleMarkerClick = (e) => {
     this.setState({
-      popoverOpen: !this.state.popoverOpen,
-      tooltipOpen: false,
+      anchorEl: e.currentTarget,
+    })
+  }
+
+  handlePopoverClose = () => {
+    this.setState({
+      anchorEl: null,
+    },() => {
+      console.log(this.state.anchorEl);
     });
   }
 
-  // show/hides the tooltip
-  // only happens on hover, clicking will hide
-  toggleTooltip() {
-    this.setState({
-      tooltipOpen: !this.state.tooltipOpen
-    });
-  }
+  // popover button handler
+  handlePopoverAction = () => {
+    let self = this;
 
-  // animate marker + open tooltip
-  markerOnHover() {
-    if (!this.state.popoverOpen) {
-      this.setState({
-        tooltipOpen: true,
-      });
-    }
-  }
-
-  // animate marker down + hide tooltip
-  markerOnLeave() {
     this.setState({
-      tooltipOpen: false,
-    });
-  }
-
-  // button click handler
-  buttonClick() {
-    // close the popover
-    // the toggle prop in Popover stops click events
-    // so I have to close it within the button handler
-    this.setState({
-      'popoverOpen': false,
+      anchorEl: null,
     });
 
     // fire the button action
-    this.action();
+    setTimeout(()=>{
+      self.action();
+    }, 200)
   }
 
 
   render() {
     return (
-      <div>
-       {/* <Tooltip
-          open = { this.state.tooltipOpen }
-          target = { '#' + this.feature.Code }
-          noArrow = { true }
-          offset = "0 10 0 0"
-        >
-          { this.feature.Name }
-        </Tooltip>*/}
-
-        { this.getMarkerIcon() }
-
-        <Popover 
+      <div
+        className="marker"
+      >
+        <Popover
+          open={ Boolean(this.state.anchorEl) }
+          anchorEl={ this.state.anchorEl }
+          onClose={ this.handlePopoverClose }
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'left',
+            horizontal: 'center',
           }}
           transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
+            vertical: 'bottom',
+            horizontal: 'center',
           }}
+          className="marker-popover"
         >
-          The content of the Popover.
+        <div className="popover-content-container">
+          <div
+            className="popover-image-container"
+            style={
+              {
+                'background': 'url(' + require('../../assets/img/np/' + this.feature.code + '/thumb.jpg') + ')',
+                'background-size': 'cover',
+                'background-position': 'center',
+              }
+            }
+          ></div>
+          <h4 className="popover-header">{ this.feature.name.replace('National Park', 'NP') }</h4>
+          <p className="popover-body">
+            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          </p>
+          <Button
+            color="primary"
+            onClick={ this.handlePopoverAction }
+            className="popover-cta"
+          >
+            See more
+          </Button>
+        </div>
         </Popover>
-
-        {/*<Popover
-          placement = "top"
-          open = { this.state.popoverOpen }
-          target = { '#' + this.feature.Code }
-        >
-          <PopoverHeader>{ this.feature.Name }</PopoverHeader>
-          <PopoverBody>
-            <p className = "marker_paragraph"><b>Location:</b> { this.feature.Location }</p>
-            <p className = "marker_paragraph"><b>Established:</b> { this.feature.Established }</p>
-            <Button
-              block
-              size = "sm"
-              theme = "info"
-              className = "button_primary_custom"
-              onClick = { this.buttonClick }
-            >
-            Explore &rarr;
-            </Button>
-          </PopoverBody>
-        </Popover>*/}
+        <Place
+          onClick={ this.handleMarkerClick }
+        />
       </div>
     );
   }

@@ -4,7 +4,7 @@ import mapbox from 'mapbox-gl';
 import MapMarker from '../MapMarker';
 import NationalParkView from '../NationalParkView';
 import { CSSTransition } from 'react-transition-group';
-import './MapView.css';
+// import './MapView.scss';
 import config from '../../config.js';
 import axios from 'axios';
 
@@ -16,7 +16,7 @@ class MapView extends React.Component {
 
     this.state = {
       renderNPView: false,
-      selectedNP: null,
+      selectedFeature: null,
     };
 
     this.handleMarkerAction = this.handleMarkerAction.bind(this);
@@ -32,7 +32,7 @@ class MapView extends React.Component {
   handleMarkerAction(feature) {
     this.setState({
       renderNPView: true,
-      nationalParkId: feature,
+      selectedFeature: feature,
     });
   }
 
@@ -59,7 +59,7 @@ class MapView extends React.Component {
     });
 
     // when the map is done loading
-    // get the geojson data, national parks, etc.
+    // get national park data
     this.map.on('load', () => {
       axios.get('/nationalpark', {
         baseURL: 'http://localhost:8000/api/',
@@ -68,73 +68,35 @@ class MapView extends React.Component {
         }
       })
       .then(function (response) {
-        console.log(response);
+        self.features = response.data;
+
+        self.features.forEach(function(feature) {
+          if ( // check if it actually has longitude + latitude
+            feature &&
+            feature.longitude &&
+            feature.latitude
+          ) {
+            // create the icon element
+            let markerContainer = document.createElement('div');
+            
+            new mapbox.Marker(markerContainer)
+              .setLngLat([feature.longitude, feature.latitude])
+              .addTo(self.map);
+
+            ReactDOM.render(
+              <MapMarker
+                feature={feature}
+                action={()=>{self.handleMarkerAction(feature)}}
+              />,
+              markerContainer
+            );
+          }
+        });
       })
       .catch(function (error) {
         console.log(error);
       });
-      // var npPointsLayer = this.map.getLayer('national-parks');
-      // var mapSource = this.map.getSource('composite');
-
-      // // get the feature data
-      // var feature_data = this.map.querySourceFeatures('composite', {
-      //   'sourceLayer': npPointsLayer.sourceLayer || null,
-      // });
-
-      // this.features = feature_data;
-
-      // add all the markers
-      // feature_data.forEach(function(feature) {
-      //   if ( // check if it actually has longitude + latitude
-      //     feature &&
-      //     feature.geometry &&
-      //     feature.geometry.coordinates
-      //   ) {
-      //     // create the icon element
-      //     let iconContainer = document.createElement('div');
-          
-      //     new mapbox.Marker(iconContainer)
-      //       .setLngLat(feature.geometry.coordinates)
-      //       .addTo(self.map);
-
-      //     ReactDOM.render(
-      //       <MapMarker
-      //         feature={feature}
-      //         action={()=>{self.handleMarkerAction(feature)}}
-      //       />,
-      //       iconContainer
-      //     );
-      //   }
-      // });
     });
-  }
-
-  /**
-   * Returns all of the map's layers 
-   */
-  getMapLayers() {
-    return this.map.getStyle().layers;
-  }
-
-  /**
-   * Rebuild the feature data how I want :-)
-   */
-  structureFeatureData(features) {
-    var featureObj = {};
-
-    var i = 1;
-    features.forEach(feature => {
-      featureObj[i] = {
-        feature_id: feature.id,
-        name: feature.properties['Name'],
-        code: feature.properties['Code'],
-        coordinates: feature.geometry.coordinates,
-        established: feature.properties['Established'],
-        location: feature.properties['Location'],
-      };
-    });
-
-    return featureObj;
   }
 
   render() {
@@ -146,8 +108,11 @@ class MapView extends React.Component {
           classNames="np-view"
           unmountOnExit
         >
-          <div id="np_view_from_map">
-            <NationalParkView feature={this.state.selectedNP} handleClose={this.handleClose}/>
+          <div id="np-view-from-map">
+            <NationalParkView
+              feature={this.state.selectedFeature}
+              handleClose={this.handleClose}
+            />
           </div>
         </CSSTransition>
         <div ref={el => this.mapContainer = el} className = 'map-container'/>

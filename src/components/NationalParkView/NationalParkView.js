@@ -1,19 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import './NationalParkView.css';
-import close_icon from '../../assets/img/icons/close.png';
-import collapse_icon from '../../assets/img/icons/collapse.png';
+
 import NPCarousel from "../NPCarousel";
 import MapView from "../MapView";
+
+import IconButton from '@material-ui/core/IconButton';
+import Close from '@material-ui/icons/Close';
 
 class NationalParkView extends React.Component {
   constructor(props) {
     super(props);
-    this.closeNPView = this.closeNPView.bind(this);
     this.state = {};
   }
 
-  closeNPView() {
+  closeNpView = () => {
     this.props.handleClose()
   }
 
@@ -23,16 +25,19 @@ class NationalParkView extends React.Component {
 
   render() {
     return (
-      <div id="np_view">
-        <div className="np_view_action_container">
-          <img src={collapse_icon} id="np_icon"/>
-          <img src={close_icon} id="np_icon" onClick={this.closeNPView}/>
+      <div id="np-view">
+        <div className="np-view-action-container">
+          <IconButton>
+            <Close
+              onClick={ this.closeNpView }
+            />
+          </IconButton>
         </div>
-        <div className="np_view_container">
-          <div className="np_view_header">
-            <h1 className="h1_title">{this.props.feature.properties.Name}</h1>
-            <h5 className="h5_title">{this.props.feature.properties.Location + ', United States'}</h5>
-            <p className="p_text">
+        <div className="np-view-container">
+          <div className="np-view-header">
+            <h1>{this.props.feature.name}</h1>
+            {/*<h5 className="h5_title">{this.props.feature.properties.Location + ', United States'}</h5>*/}
+            <p>
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
               sed do eiusmod tempor incididunt ut labore et dolore magna 
               aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
@@ -43,7 +48,7 @@ class NationalParkView extends React.Component {
               mollit anim id est laborum."
             </p>
           </div>
-          <div className="np_view_body">
+          <div className="np-view-body">
             <NPCarousel feature={this.props.feature} />
           </div>
         </div>

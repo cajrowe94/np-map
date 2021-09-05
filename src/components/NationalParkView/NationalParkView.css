@@ -1,16 +1,15 @@
-#np_view {
+#np-view {
   background-color: #f5f5f6;
   padding: 10px;
   height: 100vh;
-  width: 100vw;
 }
 
-.np_view_container {
+.np-view-container {
   max-width: 1200px;
   margin: 75px auto 0px auto;
 }
 
-.np_view_action_container {
+.np-view-action-container {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -19,7 +18,7 @@
   padding: 5px 20px;
 }
 
-#np_icon {
+#np-icon {
   height: 40px;
   width: 40px;
   padding: 8px;
@@ -27,7 +26,7 @@
   transition: background-color .5s;
 }
 
-#np_icon:hover {
+#np-icon:hover {
   cursor: pointer;
   background-color: #dedede;
 }
