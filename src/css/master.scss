@@ -1,0 +1,27 @@
+/*
+	Master/Global styles
+ */
+
+* {
+	font-family: 'Poppins', sans-serif !important;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+	font-size: toRem(45);
+	font-weight: 400;
+
+	@media #{$for-phone} {
+		font-size: toRem(24);
+	}
+}
+
+p {
+	margin: 0 0 toRem(10) 0; 
+}

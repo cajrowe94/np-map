@@ -1,7 +1,6 @@
 import React from 'react';
 import MapView from '../MapView';
-import ListView from '../ListView';
-import './App.css';
+import './App.scss';
 
 function App() {
   return (

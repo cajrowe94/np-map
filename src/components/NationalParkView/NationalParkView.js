@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './NationalParkView.css';
+// css
+import './NationalParkView.scss';
 
-import NPCarousel from "../NPCarousel";
+// components
 import MapView from "../MapView";
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
 
-import IconButton from '@material-ui/core/IconButton';
-import Close from '@material-ui/icons/Close';
+// icons
+import IconButton from '@mui/material/IconButton';
+import Close from '@mui/icons-material/Close';
 
 class NationalParkView extends React.Component {
   constructor(props) {
@@ -16,42 +20,38 @@ class NationalParkView extends React.Component {
   }
 
   closeNpView = () => {
-    this.props.handleClose()
+    this.props.handleClose();
   }
 
   componentDidMount() {
-    console.log(this.props.feature);
+    
   }
 
   render() {
     return (
       <div id="np-view">
+        {/* Close button */}
         <div className="np-view-action-container">
-          <IconButton>
-            <Close
-              onClick={ this.closeNpView }
-            />
+          <IconButton
+            onClick={ this.closeNpView }
+          >
+            <Close />
           </IconButton>
         </div>
-        <div className="np-view-container">
-          <div className="np-view-header">
-            <h1>{this.props.feature.name}</h1>
-            {/*<h5 className="h5_title">{this.props.feature.properties.Location + ', United States'}</h5>*/}
-            <p>
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-              sed do eiusmod tempor incididunt ut labore et dolore magna 
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-              ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-              Duis aute irure dolor in reprehenderit in voluptate velit esse 
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-              cupidatat non proident, sunt in culpa qui officia deserunt 
-              mollit anim id est laborum."
-            </p>
-          </div>
-          <div className="np-view-body">
-            <NPCarousel feature={this.props.feature} />
-          </div>
-        </div>
+
+        {/* Main container */}
+        <Container maxWidth="lg">
+          { /* Header */ }
+          <Grid container >
+            <Grid item xs={ 12 }>
+              <div className="np-view-header">
+                <h1 className="mb-0">{ this.props.feature.name }</h1>
+                <p className="header-subtitle">{ this.props.feature.region_name + ', ' + this.props.feature.country_name }</p>
+              </div>
+            </Grid>
+          </Grid>
+
+        </Container>
       </div>
     )
   }

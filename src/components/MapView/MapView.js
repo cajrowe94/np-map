@@ -1,14 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import mapbox from 'mapbox-gl';
+
+// components
 import MapMarker from '../MapMarker';
 import NationalParkView from '../NationalParkView';
-import { CSSTransition } from 'react-transition-group';
-// import './MapView.scss';
+import Grow from '@mui/material/Grow';
+
+// css
+import './MapView.scss';
+
+// config/libs
 import config from '../../config.js';
 import axios from 'axios';
+import mapbox from 'mapbox-gl';
 
-mapbox.accessToken = config.REACT_APP_MAPBOX_ACCESS_TOKEN;
+mapbox.accessToken = config.MAPBOX_ACCESS_TOKEN;
 
 class MapView extends React.Component {
   constructor(props) {
@@ -48,7 +54,8 @@ class MapView extends React.Component {
    */
   mapInit() {
     let self = this;
-    // main map object
+
+    // main mapbox object
     this.map = new mapbox.Map({
       container: this.mapContainer,
       style: 'mapbox://styles/calp/ckctkan1j2vpo1iqaz17pdpo5',
@@ -61,7 +68,7 @@ class MapView extends React.Component {
     // when the map is done loading
     // get national park data
     this.map.on('load', () => {
-      axios.get('/nationalpark', {
+      axios.get('/national_park', {
         baseURL: 'http://localhost:8000/api/',
         params: {
           country_id: 230,
@@ -102,7 +109,7 @@ class MapView extends React.Component {
   render() {
     return (
       <div>
-        <CSSTransition
+        <Grow
           in={this.state.renderNPView}
           timeout={400}
           classNames="np-view"
@@ -114,7 +121,7 @@ class MapView extends React.Component {
               handleClose={this.handleClose}
             />
           </div>
-        </CSSTransition>
+        </Grow>
         <div ref={el => this.mapContainer = el} className = 'map-container'/>
       </div>
     )

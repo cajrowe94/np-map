@@ -1,0 +1,52 @@
+@import '../../css/variables.scss';
+
+.marker-svg {
+  cursor: pointer;
+}
+
+.popover-content-container {
+  width: toRem(300);
+  height: auto;
+  position: relative;
+
+  .popover-image-container {
+    height: toRem(125);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: end; 
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, transparent 60%, black 100%);
+    }
+
+    .popover-header {
+      margin: 0px auto toRem(3) toRem(10);
+      color: #fff;
+      max-width: toRem(300);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 2;
+    }
+  }
+
+  .popover-body {
+    margin: 0;
+    font-size: toRem(15);
+    padding: toRem(10);
+  }
+
+  .popover-cta-container {
+    padding: toRem(10);
+    display: flex;
+    justify-content: end;
+  }
+}

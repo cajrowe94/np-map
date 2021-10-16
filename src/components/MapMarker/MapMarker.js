@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 
-import Marker from '../Marker';
+// views
 import NationalParkView from "../NationalParkView";
 
-import Popover from '@material-ui/core/Popover';
-import Button from '@material-ui/core/Button';
-import Place from '@material-ui/icons/Place';
-import ChevronRight from '@material-ui/icons/ChevronRight';
+// components
+import Popover from '@mui/material/Popover';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Chip from '@mui/material/Chip';
 
-import './MapMarker.css';
+// icons
+import Place from '@mui/icons-material/Place';
+import ChevronRight from '@mui/icons-material/ChevronRight';
+
+// css
+import './MapMarker.scss';
 
 export default class MapMarker extends React.Component {
   constructor(props) {
@@ -22,21 +28,19 @@ export default class MapMarker extends React.Component {
     this.feature = this.props.feature;
 
     this.state = {
-      anchorEl: null,
+      anchorElement: null,
     }
   }
 
   handleMarkerClick = (e) => {
     this.setState({
-      anchorEl: e.currentTarget,
-    })
+      anchorElement: e.currentTarget,
+    });
   }
 
   handlePopoverClose = () => {
     this.setState({
-      anchorEl: null,
-    },() => {
-      console.log(this.state.anchorEl);
+      anchorElement: null,
     });
   }
 
@@ -45,7 +49,7 @@ export default class MapMarker extends React.Component {
     let self = this;
 
     this.setState({
-      anchorEl: null,
+      anchorElement: null,
     });
 
     // fire the button action
@@ -54,15 +58,22 @@ export default class MapMarker extends React.Component {
     }, 200)
   }
 
+  // craft some css for the popover
+  style = (featureCode) => {
+    if (featureCode) {
+      return {
+        backgroundImage: 'url(' + require('../../assets/img/np/' + featureCode + '/thumb.jpg').default + ')'
+      }
+    }
+  }
+
 
   render() {
     return (
-      <div
-        className="marker"
-      >
+      <div className="marker">
         <Popover
-          open={ Boolean(this.state.anchorEl) }
-          anchorEl={ this.state.anchorEl }
+          open={ Boolean(this.state.anchorElement) }
+          anchorEl={ this.state.anchorElement }
           onClose={ this.handlePopoverClose }
           anchorOrigin={{
             vertical: 'top',
@@ -74,32 +85,29 @@ export default class MapMarker extends React.Component {
           }}
           className="marker-popover"
         >
-        <div className="popover-content-container">
-          <div
-            className="popover-image-container"
-            style={
-              {
-                'background': 'url(' + require('../../assets/img/np/' + this.feature.code + '/thumb.jpg') + ')',
-                'background-size': 'cover',
-                'background-position': 'center',
-              }
-            }
-          ></div>
-          <h4 className="popover-header">{ this.feature.name.replace('National Park', 'NP') }</h4>
-          <p className="popover-body">
-            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          </p>
-          <Button
-            color="primary"
-            onClick={ this.handlePopoverAction }
-            className="popover-cta"
-          >
-            See more
-          </Button>
-        </div>
+          <div className="popover-content-container">
+            <div
+              className="popover-image-container"
+              style={this.style(this.feature.code)}
+            >
+              <h4 className="popover-header">{ this.feature.name.replace('National Park', 'NP') }</h4>
+            </div>
+            <div className="popover-body">
+              <p><b>Location</b><br /> { this.feature.region_name + ', ' + this.feature.country_name }</p>
+              <p><b>Established</b><br /> { this.feature.established }</p>
+            </div>
+            <div className="popover-cta-container">
+              <Chip 
+                label="Learn more"
+                onClick={ this.handlePopoverAction }
+                variant="outlined"
+              />
+            </div>
+          </div>
         </Popover>
         <Place
           onClick={ this.handleMarkerClick }
+          className="marker-svg"
         />
       </div>
     );

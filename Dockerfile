@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:13.12.0-alpine
+FROM node:16
 
 # set working directory
 WORKDIR /app
@@ -10,7 +10,11 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install app dependencies
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm install
+RUN npm cache clean --force
+RUN npm install --save-dev
+RUN npm install react-scripts@latest -g
+RUN npm install node-sass@latest
+
 
 # add app
 COPY . ./
